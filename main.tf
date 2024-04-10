@@ -1,5 +1,5 @@
-resource "aws_db_instance" "default" {
-    identifier           = "database-2023"
+resource "aws_db_instance" "base_db" {
+    identifier           = "demo-db-instance"
     allocated_storage    = 20
     storage_type         = "gp2"
     engine               = "mysql"
@@ -11,4 +11,5 @@ resource "aws_db_instance" "default" {
     parameter_group_name = "default.mysql8.0"
     skip_final_snapshot  = true
     availability_zone    = "us-east-1a"
+    publicly_accessible  = true
 }
