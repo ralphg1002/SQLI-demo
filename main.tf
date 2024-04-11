@@ -30,7 +30,7 @@ resource "aws_instance" "example_instance" {
     systemctl enable apache2
 
     # Populate MySQL database
-    mysql -h ${aws_db_instance.metadata.endpoint} -u admin -p password <<MYSQL_SCRIPT
+    mysql -h ${aws_db_instance.mysql_rds.endpoint} -u admin -p password <<MYSQL_SCRIPT
     CREATE DATABASE IF NOT EXISTS exampledb;
     USE exampledb;
     CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), email VARCHAR(50));
