@@ -1,1 +1,4 @@
 *.py
+.vscode/
+*.sql
+php_app/
