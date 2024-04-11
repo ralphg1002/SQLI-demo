@@ -1,4 +1,4 @@
-resource "aws_db_instance" "base_db" {
+resource "aws_db_instance" "mysql_rds" { #base_db
     identifier           = "mysql-db"
     allocated_storage    = 20
     storage_type         = "gp2"
