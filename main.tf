@@ -18,9 +18,10 @@ resource "aws_db_instance" "mysql_rds" { #base_db
 resource "aws_instance" "example_instance" {
   ami           = "ami-080e1f13689e07408"
   instance_type = "t2.micro"
+  key_name      = "demophp" #existing keypair
+  vpc_security_group_ids = ["sg-05a7e34def880f3aa"]
 
   user_data = <<-EOF
-    sleep 420 # Wait for RDS instance to be available
     # Install Apache, PHP, MySQL client, and php-mysql
     apt-get update
     apt-get install -y apache2 php libapache2-mod-php php-mysql mysql-client
