@@ -16,15 +16,14 @@ resource "aws_db_instance" "mysql_rds" { #base_db
 
 # EC2 Instance
 resource "aws_instance" "example_instance" {
-    # Add the 'tags' attribute to the resource block
     tags = {
       Name = "phpDemoInstance"
     }
     ami           = "ami-080e1f13689e07408"
     instance_type = "t2.micro"
     key_name      = "demophp" #existing keypair
-    vpc_security_group_ids = ["sg-05a7e34def880f3aa"] #esisting security group
-    iam_instance_profile = "baseline-role-default-instance-role-us-east-1"
+    vpc_security_group_ids = ["sg-05a7e34def880f3aa"] #existing security group
+    iam_instance_profile = "baseline-role-default-instance-role-us-east-1" #existing IAM role
 
   user_data = <<-EOF
     # Install Apache, PHP, MySQL client, and php-mysql
@@ -35,7 +34,7 @@ resource "aws_instance" "example_instance" {
     sudo systemctl start apache2
 
     # Populate MySQL database
-    #mysql -h ${aws_db_instance.mysql_rds.endpoint} -u admin -p password <<MYSQL_SCRIPT
+    mysql -h aws_db_instance.mysql_rds.endpoint -u admin -p password <<MYSQL_SCRIPT
 
     CREATE DATABASE IF NOT EXISTS exampledb;
     USE exampledb;
