@@ -5,9 +5,9 @@ resource "aws_db_instance" "mysql_rds" {
     engine               = "mysql"
     engine_version       = "8.0.35"
     instance_class       = "db.t3.micro"
-    db_name              = "metadata"
-    username             = "admin"
-    password             = "password"
+    db_name              = "db_name"    #Enter your DB name
+    username             = "username"   #Enter your username
+    password             = "password"   #Enter your password
     parameter_group_name = "default.mysql8.0"
     skip_final_snapshot  = true
     availability_zone    = "us-east-1a"
@@ -56,7 +56,7 @@ resource "aws_instance" "example_instance" {
     tags = {
       Name = "phpDemoInstance"
     }
-    ami           = "ami-080e1f13689e07408"
+    ami           = "ami-080e1f13689e07408" #Ubuntu
     instance_type = "t2.micro"
     key_name      = "demophp" #existing keypair
     vpc_security_group_ids = ["ec2_sg"]
