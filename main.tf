@@ -18,7 +18,7 @@ resource "aws_db_instance" "mysql_rds" { #base_db
 resource "aws_instance" "example_instance" {
     # Add the 'tags' attribute to the resource block
     tags = {
-      Name = "phpDemoInstance"
+      Name = "phpLoginPage"
     }
     ami           = "ami-080e1f13689e07408"
     instance_type = "t2.micro"
