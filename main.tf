@@ -26,14 +26,10 @@ resource "aws_instance" "example_instance" {
     iam_instance_profile = "baseline-role-default-instance-role-us-east-1" #existing IAM role
 
   user_data = <<-EOF
-    # Install Apache, PHP, MySQL client, and php-mysql
-    sudo apt-get update
-    sudo apt-get install apache2 php8.1-mysql php8.1-mbstring php8.1-xml php8.1-curl
+    apt-get update
+    apt-get install apache2 php8.1-mysql php8.1-mbstring php8.1-xml php8.1-curl
+    systemctl start apache2
 
-    # Start and enable Apache
-    sudo systemctl start apache2
-
-    # Populate MySQL database
     mysql -h aws_db_instance.mysql_rds.endpoint -u admin -p password <<MYSQL_SCRIPT
 
     CREATE DATABASE IF NOT EXISTS exampledb;
