@@ -16,27 +16,32 @@ resource "aws_db_instance" "mysql_rds" { #base_db
 
 # EC2 Instance
 resource "aws_instance" "example_instance" {
-  ami           = "ami-080e1f13689e07408"
-  instance_type = "t2.micro"
-  key_name      = "demophp" #existing keypair
-  vpc_security_group_ids = ["sg-05a7e34def880f3aa"]
+    # Add the 'tags' attribute to the resource block
+    tags = {
+      Name = "phpDemoInstance"
+    }
+    ami           = "ami-080e1f13689e07408"
+    instance_type = "t2.micro"
+    key_name      = "demophp" #existing keypair
+    vpc_security_group_ids = ["sg-05a7e34def880f3aa"] #esisting security group
+    iam_instance_profile = "baseline-role-default-instance-role-us-east-1"
 
-  user_data = <<-EOF
-    # Install Apache, PHP, MySQL client, and php-mysql
-    apt-get update
-    apt-get install -y apache2 php libapache2-mod-php php-mysql mysql-client
+#   user_data = <<-EOF
+#     # Install Apache, PHP, MySQL client, and php-mysql
+#     apt-get update
+#     apt-get install -y apache2 php libapache2-mod-php php-mysql mysql-client
 
-    # Start and enable Apache
-    systemctl start apache2
-    systemctl enable apache2
+#     # Start and enable Apache
+#     systemctl start apache2
+#     systemctl enable apache2
 
-    # Populate MySQL database
-    mysql -h ${aws_db_instance.mysql_rds.endpoint} -u admin -p password <<MYSQL_SCRIPT
-    CREATE DATABASE IF NOT EXISTS exampledb;
-    USE exampledb;
-    CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), email VARCHAR(50));
-    INSERT INTO users (name, email) VALUES ('John Doe', 'john.doe@example.com');
-    INSERT INTO users (name, email) VALUES ('Jane Doe', 'jane.doe@example.com');
-    MYSQL_SCRIPT
-    EOF
+#     # Populate MySQL database
+#     mysql -h ${aws_db_instance.mysql_rds.endpoint} -u admin -p password <<MYSQL_SCRIPT
+#     CREATE DATABASE IF NOT EXISTS exampledb;
+#     USE exampledb;
+#     CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), email VARCHAR(50));
+#     INSERT INTO users (name, email) VALUES ('John Doe', 'john.doe@example.com');
+#     INSERT INTO users (name, email) VALUES ('Jane Doe', 'jane.doe@example.com');
+#     MYSQL_SCRIPT
+#     EOF
 }
