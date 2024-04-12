@@ -52,13 +52,13 @@ resource "aws_security_group" "ec2_sg" {
     }
 }
 
-# resource "aws_instance" "example_instance" {
-#     tags = {
-#       Name = "phpDemoInstance"
-#     }
-#     ami           = "ami-080e1f13689e07408"
-#     instance_type = "t2.micro"
-#     key_name      = "demophp" #existing keypair
-#     vpc_security_group_ids = ["ec2_sg"]
-#     iam_instance_profile = "baseline-role-default-instance-role-us-east-1" #existing IAM role
-# }
+resource "aws_instance" "example_instance" {
+    tags = {
+      Name = "phpDemoInstance"
+    }
+    ami           = "ami-080e1f13689e07408"
+    instance_type = "t2.micro"
+    key_name      = "demophp" #existing keypair
+    vpc_security_group_ids = ["ec2_sg"]
+    iam_instance_profile = "baseline-role-default-instance-role-us-east-1" #existing IAM role
+}
