@@ -26,17 +26,19 @@ resource "aws_instance" "example_instance" {
     iam_instance_profile = "baseline-role-default-instance-role-us-east-1" #existing IAM role
 
   user_data = <<-EOF
-    apt-get update
-    apt-get install apache2 php8.1-mysql php8.1-mbstring php8.1-xml php8.1-curl
-    systemctl start apache2
-
-    mysql -h aws_db_instance.mysql_rds.endpoint -u admin -p password <<MYSQL_SCRIPT
-
-    CREATE DATABASE IF NOT EXISTS exampledb;
-    USE exampledb;
-    CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), email VARCHAR(50));
-    INSERT INTO users (name, email) VALUES ('John Doe', 'john.doe@example.com');
-    INSERT INTO users (name, email) VALUES ('Jane Doe', 'jane.doe@example.com');
-    MYSQL_SCRIPT
+    echo "Hello, World!" > /tmp/hello.txt
     EOF
 }
+
+# apt-get update
+#     apt-get install apache2 php8.1-mysql php8.1-mbstring php8.1-xml php8.1-curl
+#     systemctl start apache2
+
+#     mysql -h aws_db_instance.mysql_rds.endpoint -u admin -p password <<MYSQL_SCRIPT
+
+#     CREATE DATABASE IF NOT EXISTS exampledb;
+#     USE exampledb;
+#     CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), email VARCHAR(50));
+#     INSERT INTO users (name, email) VALUES ('John Doe', 'john.doe@example.com');
+#     INSERT INTO users (name, email) VALUES ('Jane Doe', 'jane.doe@example.com');
+#     MYSQL_SCRIPT
