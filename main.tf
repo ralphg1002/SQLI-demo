@@ -1,4 +1,4 @@
-resource "aws_db_instance" "mysql_rds" { #base_db
+resource "aws_db_instance" "mysql_rds" {
     identifier           = "mysql-db"
     allocated_storage    = 20
     storage_type         = "gp2"
@@ -14,7 +14,44 @@ resource "aws_db_instance" "mysql_rds" { #base_db
     publicly_accessible  = true
 }
 
-# EC2 Instance
+resource "aws_security_group" "ec2_sg" {
+    name        = "ec2_sg"
+    description = "Allow MySQL inbound traffic"
+    
+    # Set to open for demo, can change to your IP
+    ingress = [
+        {
+            description = "HTTP"
+            from_port   = 80
+            to_port     = 80
+            protocol    = "tcp"
+            cidr_blocks = ["0.0.0.0/0"]
+            ipv6_cidr_blocks = []
+            prefix_list_ids = []
+            security_groups = []
+            self = false
+        },
+        {
+            description = "ssh"
+            from_port   = 22
+            to_port     = 22
+            protocol    = "tcp"
+            cidr_blocks = ["0.0.0.0/0"]
+            ipv6_cidr_blocks = []
+            prefix_list_ids = []
+            security_groups = []
+            self = false
+        }
+    ]
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+        ipv6_cidr_blocks = ["::/0"]
+    }
+}
+
 resource "aws_instance" "example_instance" {
     tags = {
       Name = "phpDemoInstance"
@@ -22,23 +59,6 @@ resource "aws_instance" "example_instance" {
     ami           = "ami-080e1f13689e07408"
     instance_type = "t2.micro"
     key_name      = "demophp" #existing keypair
-    vpc_security_group_ids = ["sg-05a7e34def880f3aa"] #existing security group
+    vpc_security_group_ids = ["ec2_sg"]
     iam_instance_profile = "baseline-role-default-instance-role-us-east-1" #existing IAM role
-
-  user_data = <<-EOF
-    echo "Hello, World!" > /tmp/hello.txt
-    EOF
 }
-
-# apt-get update
-#     apt-get install apache2 php8.1-mysql php8.1-mbstring php8.1-xml php8.1-curl
-#     systemctl start apache2
-
-#     mysql -h aws_db_instance.mysql_rds.endpoint -u admin -p password <<MYSQL_SCRIPT
-
-#     CREATE DATABASE IF NOT EXISTS exampledb;
-#     USE exampledb;
-#     CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), email VARCHAR(50));
-#     INSERT INTO users (name, email) VALUES ('John Doe', 'john.doe@example.com');
-#     INSERT INTO users (name, email) VALUES ('Jane Doe', 'jane.doe@example.com');
-#     MYSQL_SCRIPT
