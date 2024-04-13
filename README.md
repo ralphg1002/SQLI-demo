@@ -1,4 +1,6 @@
 # SQLI-demo
+[SQLI_Report.pdf](https://github.com/ralphg1002/SQLI-demo/files/14965140/ECE_1155_Term_Report.pdf)
+
 ### 1. Clone the repository:
 ```
 git clone https://github.com/ralphg1002/SQLI-demo.git
